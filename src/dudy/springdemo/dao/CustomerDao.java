@@ -12,4 +12,8 @@ public interface CustomerDao {
     void addCustomer(Customer customer);
 
     Customer getCustomer(int theId);
+
+    void deleteCustomer(int theId);
+
+    List<Customer> getCustomer(String theName);
 }

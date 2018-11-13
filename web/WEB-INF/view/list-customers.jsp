@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: admin
@@ -25,6 +26,11 @@
         <input type="button" value="Add Customer"
                class="add-button"
                onclick="window.location.href='/customer/showFormForAdd'; return false;"/>
+        <form:form action="search" method="POST">
+            Search customer: <input type="text" name="theSearchName" />
+
+            <input type="submit" value="Search" class="add-button" />
+        </form:form>
         <table>
             <tr>
                 <th>First Name</th>
@@ -37,11 +43,19 @@
                 <c:url var="updateLink" value="/customer/showFormForUpdate">
                     <c:param name="customerId" value="${tempCustomer.id}"/>
                 </c:url>
+                <c:url var="deleteLink" value="/customer/deleteCustomer">
+                    <c:param name="customerToDeleteId" value="${tempCustomer.id}"/>
+                </c:url>
+
                 <tr>
                     <td>${tempCustomer.name}</td>
                     <td>${tempCustomer.lastName}</td>
                     <td>${tempCustomer.email}</td>
-                    <td><a href="${updateLink}">update</a></td>
+                    <td><a href="${updateLink}">update</a>
+                    |
+                    <a href="${deleteLink}"
+                    onclick="if(!confirm('Are you sure u want to delete?'))return false">delete</a></td>
+
 
                 </tr>
             </c:forEach>

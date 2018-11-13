@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +22,6 @@ public class CustomerDaoImpl implements CustomerDao {
         Session session = sessionFactory.getCurrentSession();
         Query<Customer> query = session.createQuery("from Customer order by lastName", Customer.class);
         List<Customer> customers = query.getResultList();
-
         return customers;
     }
 
@@ -39,5 +36,27 @@ public class CustomerDaoImpl implements CustomerDao {
         Session session = sessionFactory.getCurrentSession();
         Customer customer = session.get(Customer.class,theId);
         return customer;
+    }
+
+    @Override
+    public void deleteCustomer(int theId) {
+        Session session = sessionFactory.getCurrentSession();
+        Customer customerToDelete = session.get(Customer.class, theId);
+        session.delete(customerToDelete);
+    }
+
+    @Override
+    public List<Customer> getCustomer(String theName) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Customer>query = null;
+        if(theName != null && theName.trim().length() > 0) {
+            query= session.createQuery("FROM Customer where name=:theName");
+            query.setParameter("theName", theName);
+        }
+        else{
+            query = session.createQuery("from Customer order by lastName", Customer.class);
+        }
+        List<Customer> list = query.getResultList();
+        return list;
     }
 }
