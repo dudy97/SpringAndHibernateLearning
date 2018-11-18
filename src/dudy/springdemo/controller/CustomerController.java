@@ -48,6 +48,7 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         return "customer-form";
     }
+
     @PostMapping("/search")
     public String loadCustomerByName(@RequestParam("theSearchName")String theName, Model model){
         List<Customer> selectedCustomers = service.getCustomer(theName);
