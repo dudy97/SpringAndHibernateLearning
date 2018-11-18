@@ -50,8 +50,8 @@ public class CustomerDaoImpl implements CustomerDao {
         Session session = sessionFactory.getCurrentSession();
         Query<Customer>query = null;
         if(theName != null && theName.trim().length() > 0) {
-            query= session.createQuery("FROM Customer where name=:theName");
-            query.setParameter("theName", theName);
+            query= session.createQuery("FROM Customer c where c.name LIKE CONCAT('%', :theName, '%')");
+            query.setString("theName", theName);
         }
         else{
             query = session.createQuery("from Customer order by lastName", Customer.class);

@@ -1,6 +1,7 @@
 package dudy.springdemo.aspect;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -34,5 +35,14 @@ public class CRMLoggingAspect {
         Object[] obj = jp.getArgs();
         for(Object o:obj)
             myLogger.info(o.toString());
+    }
+
+    @AfterReturning(value = "appFlow()",
+                    returning = "result")
+    private void after(JoinPoint jp, Object result){
+        String method = jp.getSignature().toShortString();
+        myLogger.info("====>"+method);
+        myLogger.info("=====>"+result);
+
     }
 }
